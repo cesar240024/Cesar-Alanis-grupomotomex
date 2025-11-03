@@ -1,0 +1,52 @@
+Ejemplos
+
+{
+  "nombre": "Javier Lozano",
+  "email": "javier.lozano@bikecitycorp.mx",
+  "telefono": "+52-55-7911-5532",
+  "tipo_cliente": "corporativo",
+  "empresa": "BikeCity Corp",
+  "ubicacion": "Ciudad de México, CDMX",
+  "segmento_interes": "eléctrica",
+  "volumen_estimado": "60-80",
+  "presupuesto_aproximado": "alto",
+  "urgencia": "alta",
+  "mensaje": "Somos una empresa de transporte urbano y buscamos adquirir 70 bicicletas eléctricas para reparto en CDMX. Necesitamos cotización y tiempos de entrega inmediatos.",
+  "fuente": "web",
+  "temporada": "alta"
+}
+
+{
+  "nombre": "Carolina Díaz",
+  "email": "carolina.diaz@urbancycles.mx",
+  "telefono": "+52-33-8281-9922",
+  "tipo_cliente": "tienda",
+  "empresa": "Urban Cycles MX",
+  "ubicacion": "Guadalajara, JAL",
+  "segmento_interes": "urbana",
+  "volumen_estimado": "10-20",
+  "presupuesto_aproximado": "medio",
+  "urgencia": "media",
+  "mensaje": "Queremos cotizar unas 15 bicicletas urbanas para actualizar el inventario de la temporada. No es urgente, pero nos interesa concretar este mes.",
+  "fuente": "email",
+  "temporada": "media"
+}
+
+{
+  "nombre": "Sofía Aguilar",
+  "email": "sofia.aguilar@pedalboutique.com",
+  "telefono": "+52-55-9821-4412",
+  "tipo_cliente": "consumidor_final",
+  "empresa": "Pedal Boutique",
+  "ubicacion": "Puebla, PUE",
+  "segmento_interes": "urbana",
+  "volumen_estimado": "6-10",
+  "presupuesto_aproximado": "bajo",
+  "urgencia": "baja",
+  "mensaje": "Solo estoy viendo precios de bicicletas urbanas, tal vez compre una el próximo trimestre.",
+  "fuente": "redes",
+  "temporada": "baja"
+}
+
+
+
