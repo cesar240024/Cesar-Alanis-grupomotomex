@@ -1,0 +1,100 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "httpMethod": [
+          "POST"
+        ],
+        "path": "21e43be0-940c-4f7a-a0cd-a464beca9619",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9abb32d1-039b-4942-b31b-f4ca878c3404",
+      "name": "Webhook",
+      "webhookId": "21e43be0-940c-4f7a-a0cd-a464beca9619",
+      "alwaysOutputData": true,
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body;\nconst lead = body.lead_data;\nconst classification = body.classification;\n\nlet ejecutivo = { nombre: \"\", correo: \"\" };\n\n// Caso prioritario: leads de alto valor (Roberto Campos)\nif (classification.budget_level === \"alto\") {\n  ejecutivo = { nombre: \"Roberto Campos\", correo: \"cesar.alanisgro@outlook.com\" };\n}\n// Asignación por segmento\nelse if (classification.segment === \"electrica\" || classification.segment === \"premium\") {\n  ejecutivo = { nombre: \"Ana Martínez\", correo: \"alejandro.alanisgrrr@gmail.com\" };\n}\nelse if (classification.segment === \"mtb\") {\n  ejecutivo = { nombre: \"Carlos López\", correo: \"cesar.alanisgro@outlook.com\" };\n}\nelse if ([\"corporativo\", \"gobierno\"].includes(lead.tipo_cliente)) {\n  ejecutivo = { nombre: \"Diana Torres\", correo: \"alejandro.alanisgrrr@gmail.com\" };\n}\nelse if ([\"retail\", \"mayoreo\"].includes(lead.tipo_cliente)) {\n  ejecutivo = { nombre: \"Eduardo Ruiz\", correo: \"cesar.alanisgro@outlook.com\" };\n}\nelse if ([\"urbana\", \"infantil\"].includes(classification.segment)) {\n  ejecutivo = { nombre: \"Fernanda Silva\", correo: \"alejandro.alanisgrrr@gmail.com\" };\n}\n// Valor por defecto (si nada coincide)\nelse {\n  ejecutivo = { nombre: \"Diana Torres\", correo: \"alejandro.alanisgrrr@gmail.com\" };\n}\n\nreturn [{\n  urgencia: classification.urgency,\n  nombre: lead.nombre,\n  email_cliente: lead.email,\n  telefono: lead.telefono,\n  segmento: classification.segment,\n  tipo_cliente: lead.tipo_cliente,\n  mensaje: lead.mensaje,\n  fuente: lead.fuente,\n  score_final: body.score_final,\n  ejecutivo\n}];\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "66adb9e8-705e-4a28-9661-6eb7e43fbf74",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.ejecutivo.correo }}",
+        "subject": "=URGENCIA: {{ $json.urgencia }} - Asignación de Lead  {{ $json.nombre }} - SCORE: {{ $json.score_final }}",
+        "message": "=<p><strong>MENSAJE:</strong> {{ $json.mensaje }}</p>\n\n<ul>\n  <li><strong>Nombre:</strong> {{ $json.nombre }}</li>\n  <li><strong>Correo:</strong> {{ $json.email_cliente }}</li>\n  <li><strong>Teléfono:</strong> {{ $json.telefono }}</li>\n  <li><strong>Segmento:</strong> {{ $json.segmento }}</li>\n  <li><strong>Fuente:</strong> {{ $json.fuente }}</li>\n  <li><strong>Score Final:</strong> {{ $json.score_final }}</li>\n</ul>\n\n<hr>\n\n<h4>Ejecutivo Asignado</h4>\n<ul>\n  <li><strong>Nombre:</strong> {{ $json.ejecutivo.nombre }}</li>\n  <li><strong>Correo:</strong> {{ $json.ejecutivo.correo }}</li>\n</ul>\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "e358d1da-4ae4-4d0f-8931-27c71edaf996",
+      "name": "Send a message",
+      "webhookId": "7c4dd9ba-ba8e-4a47-91d7-4263e0c8286f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "qV34lKbcF4S8Rgrx",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c04e8225-2943-4e41-964f-eafab4d47796",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ed4b424338a868f8442b711bc9976d8a082d0b409cb32d0e3857474df6a96ba6"
+  },
+  "id": "ndjyyqdOnxxQRkvB",
+  "tags": []
+}
